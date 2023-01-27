@@ -14,25 +14,27 @@ function devConfig(): Plugin[] {
   return [
     {
       name: 'vite-plugin-ssr:devConfig',
-      config: () => ({
-        ssr: { external: ['vite-plugin-ssr'] },
-        optimizeDeps: {
-          exclude: [
-            // We exclude the vite-plugin-ssr client to be able to use `import.meta.glob()`
-            'vite-plugin-ssr/client',
-            'vite-plugin-ssr/client/router',
-            'vite-plugin-ssr/routing',
-            // - We also exclude @brillout/json-serializer to avoid:
-            //   ```
-            //   9:28:58 AM [vite] ✨ new dependencies optimized: @brillout/json-serializer/parse
-            //   9:28:58 AM [vite] ✨ optimized dependencies changed. reloading
-            //   ```
-            // - Previously, we had to exclude @brillout/json-serializer because of pnpm, but this doesn't seem to be the case anymore
-            '@brillout/json-serializer/parse',
-            '@brillout/json-serializer/stringify'
-          ]
+      async config() {
+        return {
+          ssr: { external: ['vite-plugin-ssr'] },
+          optimizeDeps: {
+            exclude: [
+              // We exclude the vite-plugin-ssr client to be able to use `import.meta.glob()`
+              'vite-plugin-ssr/client',
+              'vite-plugin-ssr/client/router',
+              'vite-plugin-ssr/routing',
+              // - We also exclude @brillout/json-serializer to avoid:
+              //   ```
+              //   9:28:58 AM [vite] ✨ new dependencies optimized: @brillout/json-serializer/parse
+              //   9:28:58 AM [vite] ✨ optimized dependencies changed. reloading
+              //   ```
+              // - Previously, we had to exclude @brillout/json-serializer because of pnpm, but this doesn't seem to be the case anymore
+              '@brillout/json-serializer/parse',
+              '@brillout/json-serializer/stringify'
+            ]
+          }
         }
-      }),
+      },
       async configResolved(config) {
         const configVps = await getConfigVps(config)
         addExtensionsToOptimizeDeps(config, configVps)
@@ -42,7 +44,7 @@ function devConfig(): Plugin[] {
       configureServer(server) {
         if (!isViteCliCall()) return
         return () => {
-          addSsrMiddleware(server.middlewares)
+          addSsrMiddleware(server.middlewares, server)
         }
       }
     }
@@ -99,7 +101,7 @@ async function determineFsAllowList(config: ResolvedConfig, configVps: ConfigVps
 
   // Add node_modules/vite-plugin-ssr/
   {
-    // Current directory: vite-plugin-ssr/dist/cjs/node/plugin/plugins/
+    // [RELATIVE_PATH_FROM_DIST] Current directory: node_modules/vite-plugin-ssr/dist/cjs/node/plugin/plugins/
     const vitePluginSsrRoot = path.join(__dirname, '../../../../../')
     // Assert that `vitePluginSsrRoot` is indeed pointing to `node_modules/vite-plugin-ssr/`
     require.resolve(`${vitePluginSsrRoot}/dist/cjs/node/plugin/plugins/devConfig.js`)

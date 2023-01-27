@@ -1,7 +1,7 @@
 export { runPrerender }
 export type { PrerenderOptions }
 
-import '../page-files/setup'
+import '../runtime/page-files/setup'
 import path from 'path'
 import { isErrorPageId, loadPageRoutes, route } from '../../shared/route'
 import {
@@ -29,11 +29,11 @@ import {
   type RenderContext,
   prerender404Page,
   initPageContext
-} from '../renderPage/renderPageContext'
+} from '../runtime/renderPage/renderPageContext'
 import { blue, green, gray, cyan } from 'picocolors'
 import { cpus } from 'os'
 import type { PageFile } from '../../shared/getPageFiles'
-import { getGlobalContext, initGlobalContext } from '../globalContext'
+import { getGlobalContext, initGlobalContext } from '../runtime/globalContext'
 import { resolveConfig } from 'vite'
 import { getConfigVps } from '../plugin/plugins/config/assertConfigVps'
 import type { InlineConfig } from 'vite'

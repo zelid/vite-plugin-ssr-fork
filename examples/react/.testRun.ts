@@ -1,8 +1,8 @@
-import { page, test, expect, run, partRegex, autoRetry, fetchHtml, getServerUrl } from '@brillout/test-e2e'
-
 export { testRun }
 
-function testRun(cmd: 'npm run dev' | 'npm run preview') {
+import { page, test, expect, run, partRegex, autoRetry, fetchHtml, getServerUrl } from '@brillout/test-e2e'
+
+function testRun(cmd: 'npm run dev' | 'npm run preview' | 'npm run prod') {
   run(cmd)
 
   test('page content is rendered to HTML', async () => {
@@ -28,9 +28,6 @@ function testRun(cmd: 'npm run dev' | 'npm run preview') {
   test('about page', async () => {
     await page.click('a[href="/about"]')
     expect(await page.textContent('h1')).toBe('About')
-    // CSS is loaded only after being dynamically `import()`'d from JS
-    await autoRetry(async () => {
-      expect(await page.$eval('h1', (e) => getComputedStyle(e).color)).toBe('rgb(0, 128, 0)')
-    })
+    expect(await page.textContent('p')).toBe('Example of using VPS.')
   })
 }

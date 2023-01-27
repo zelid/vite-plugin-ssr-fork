@@ -352,7 +352,8 @@ const headings: HeadingDefinition[] = [
   {
     level: 2,
     title: 'Page Redirection',
-    url: '/page-redirection'
+    url: '/page-redirection',
+    sectionTitles: ['Client-side', 'Server-side']
   },
   {
     level: 2,
@@ -626,13 +627,29 @@ const headings: HeadingDefinition[] = [
   },
   {
     level: 2,
-    title: 'hapi',
-    url: '/hapi'
+    title: 'Express.js',
+    url: '/express'
   },
   {
     level: 2,
     title: 'Fastify',
     url: '/fastify'
+  },
+  {
+    level: 2,
+    title: 'hapi',
+    url: '/hapi'
+  },
+  {
+    level: 2,
+    title: 'Firebase',
+    url: '/firebase'
+  },
+  {
+    level: 2,
+    title: 'Server Integration',
+    titleInNav: 'Other',
+    url: '/server'
   },
   {
     level: 4,
