@@ -1,3 +1,5 @@
+export const clientRouting = true
+
 export { render }
 
 import React from 'react'

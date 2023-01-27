@@ -8,6 +8,7 @@
       <Link href="/markdown">Markdown</Link>
       <Link href="/star-wars">Data Fetching</Link>
       <Link href="/hello">Routing</Link>
+      <Link href="/hello-tsx">Routing tsx</Link>
     </div>
     <div class="content"><slot /></div>
   </div>
